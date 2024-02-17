@@ -52,6 +52,7 @@
                                         <tr>
 
                                             <th>Name</th>
+                                            <th>Picture</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -59,6 +60,15 @@
                                             <tr>
 
                                                 <td>{{ $category->name }}
+                                                </td>
+                                                <td>
+                                                    @if ($category->image)
+                                                        <img src="{{ asset('/' . $category->image) }}" alt=""
+                                                            width= "70px" class="img-thumbnail">
+
+                                                    @else
+                                                        <span class="badge badge-danger">No Image</span>
+                                                    @endif
                                                 </td>
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
