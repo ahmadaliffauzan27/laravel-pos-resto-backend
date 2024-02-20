@@ -13,6 +13,8 @@ class ProductController extends Controller
     {
         //get all products
         $product = Product::all();
+        //load category
+        $product->load('category');
         // $product = Product::paginate(10);
         return response()->json([
             'status' => 'success',
