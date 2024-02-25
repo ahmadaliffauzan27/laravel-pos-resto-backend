@@ -29,3 +29,6 @@ Route::apiResource('/api-product', App\Http\Controllers\Api\ProductController::c
 
 //category api
 Route::apiResource('/api-category', App\Http\Controllers\Api\CategoryController::class)->middleware('auth:sanctum');
+
+//order api
+Route::post('/api-order', [App\Http\Controllers\Api\OrderController::class, 'saveOrder'])->middleware('auth:sanctum');
