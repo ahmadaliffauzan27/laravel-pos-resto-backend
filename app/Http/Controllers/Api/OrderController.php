@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -62,20 +63,20 @@ class OrderController extends Controller
     public function getTransactionsInLastMonth()
     {
         // Mendapatkan tanggal awal bulan lalu
-        $startOfLastMonth = now()->subMonth()->startOfMonth();
+    $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
 
-        // Mendapatkan tanggal akhir bulan saat ini
-        $endOfCurrentMonth = now()->endOfMonth();
+    // Mendapatkan tanggal akhir bulan ini
+    $endOfCurrentMonth = Carbon::now()->endOfMonth();
 
-        // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal 7 bulan lalu ke tanggal 7 bulan saat ini
-        $transactions = Order::whereBetween('transaction_time', [
-            $startOfLastMonth->subDays(7)->format('Y-m-d'),
-            $endOfCurrentMonth->subDays(7)->format('Y-m-d')
-        ])->get();
+    // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal 7 bulan lalu hingga tanggal 7 bulan saat ini
+    $transactions = Order::whereBetween('transaction_time', [
+        $startOfLastMonth->subDays(30)->format('Y-m-d'), // 30 hari sebelum tanggal awal bulan lalu
+        $endOfCurrentMonth->subDays(30)->format('Y-m-d') // 30 hari sebelum tanggal akhir bulan saat ini
+    ])->get();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $transactions
-        ], 200);
+    return response()->json([
+        'status' => 'success',
+        'data' => $transactions
+    ], 200);
     }
 }
