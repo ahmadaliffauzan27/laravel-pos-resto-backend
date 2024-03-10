@@ -59,24 +59,23 @@ class OrderController extends Controller
         ], 200);
     }
 
-     // Mendapatkan transaksi dalam rentang waktu satu bulan
+     // get transactions in last month
     public function getTransactionsInLastMonth()
     {
-        // Mendapatkan tanggal awal bulan lalu
-    $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
 
-    // Mendapatkan tanggal akhir bulan ini
-    $endOfCurrentMonth = Carbon::now()->endOfMonth();
+        // Mendapatkan tanggal hari ini
+        $endOfCurrentMonth = Carbon::now();
 
-    // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal 7 bulan lalu hingga tanggal 7 bulan saat ini
-    $transactions = Order::whereBetween('transaction_time', [
-        $startOfLastMonth->subDays(30)->format('Y-m-d'), // 30 hari sebelum tanggal awal bulan lalu
-        $endOfCurrentMonth->subDays(30)->format('Y-m-d') // 30 hari sebelum tanggal akhir bulan saat ini
-    ])->get();
+        // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal awal bulan lalu hingga hari ini
+        $transactions = Order::whereBetween('transaction_time', [
+            $startOfLastMonth->format('Y-m-d'),
+            $endOfCurrentMonth->format('Y-m-d')
+        ])->get();
 
-    return response()->json([
-        'status' => 'success',
-        'data' => $transactions
-    ], 200);
+        return response()->json([
+            'status' => 'success',
+            'data' => $transactions
+        ], 200);
     }
 }
