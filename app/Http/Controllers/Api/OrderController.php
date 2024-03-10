@@ -57,4 +57,25 @@ class OrderController extends Controller
             'data' => $order
         ], 200);
     }
+
+     // Mendapatkan transaksi dalam rentang waktu satu bulan
+    public function getTransactionsInLastMonth()
+    {
+        // Mendapatkan tanggal awal bulan lalu
+        $startOfLastMonth = now()->subMonth()->startOfMonth();
+
+        // Mendapatkan tanggal akhir bulan saat ini
+        $endOfCurrentMonth = now()->endOfMonth();
+
+        // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal 7 bulan lalu ke tanggal 7 bulan saat ini
+        $transactions = Order::whereBetween('transaction_time', [
+            $startOfLastMonth->subDays(7)->format('Y-m-d'),
+            $endOfCurrentMonth->subDays(7)->format('Y-m-d')
+        ])->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $transactions
+        ], 200);
+    }
 }
