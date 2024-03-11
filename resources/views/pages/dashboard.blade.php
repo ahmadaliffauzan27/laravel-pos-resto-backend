@@ -146,10 +146,10 @@ $data = $orders->pluck('total_amount')->toArray();
                 var myChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: <?php echo json_encode($labels); ?>, // Menggunakan label dari data PHP
+                        labels: <?php echo json_encode($labels); ?>,
                         datasets: [{
                             label: 'Daily Sales',
-                            data: <?php echo json_encode($data); ?>, // Menggunakan data penjualan dari data PHP
+                            data: <?php echo json_encode($data); ?>,
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1
