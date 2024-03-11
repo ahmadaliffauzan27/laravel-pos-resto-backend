@@ -80,8 +80,7 @@ $data = $orders->pluck('total_amount')->toArray();
                             </div>
                             <div class="card-body">
                                 <?php echo $total_category; ?>
-                                <div>Total Order: <?php echo $total_order; ?></div>
-
+                                {{-- <div>Total Order: <?php echo $total_order; ?></div> --}}
                             </div>
                         </div>
                     </div>
@@ -115,9 +114,12 @@ $data = $orders->pluck('total_amount')->toArray();
                             </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="myChart" height="182"></canvas>
                             <div class="statistic-details mt-sm-4">
-                                <!-- Detail statistik lainnya -->
+                                <!-- Tampilkan total order di sini -->
+                                <div class="statistic-details-item">
+                                    <div class="detail-value">Total Order:</div>
+                                    <div class="detail-name"><?php echo $total_order; ?></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,29 +143,6 @@ $data = $orders->pluck('total_amount')->toArray();
                 </div>
             </div>
 
-            <script>
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: <?php echo json_encode($labels); ?>,
-                        datasets: [{
-                            label: 'Daily Sales',
-                            data: <?php echo json_encode($data); ?>,
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
         </section>
     </div>
 @endsection
