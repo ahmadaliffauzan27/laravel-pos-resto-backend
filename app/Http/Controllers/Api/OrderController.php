@@ -83,7 +83,7 @@ class OrderController extends Controller
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
         $totalRevenue = $query->sum('payment_amount');
-        $totalDiscount = $query->sum('discount_amount');
+        // $totalDiscount = $query->sum('discount_amount');
         $totalTax = $query->sum('tax');
         $totalServiceCharge = $query->sum('service_charge');
         $totalSubtotal = $query->sum('sub_total');
