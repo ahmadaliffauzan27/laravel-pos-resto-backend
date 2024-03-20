@@ -156,7 +156,7 @@ $sold_products = DB::table('order_items')
                             <h4>Products Sold Chart</h4>
                         </div>
                         <div class="card-body">
-                            <canvas id="productsChart" width="400" height="200"></canvas>
+                            <canvas id="productsChart" width="400" height="300"></canvas>
                         </div>
                     </div>
                 </div>
@@ -210,11 +210,14 @@ $sold_products = DB::table('order_items')
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                return value.toLocaleString(); // Menggunakan koma sebagai pemisah ribuan
+                            }
                             }
                         }]
                     },
-                    maintainAspectRatio: false, // Menjadikan chart tidak mempertahankan rasio aspek
+                    // maintainAspectRatio: false, // Menjadikan chart tidak mempertahankan rasio aspek
                     responsive: true // Menjadikan chart responsif
                 }
             });
