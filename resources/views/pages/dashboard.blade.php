@@ -186,10 +186,17 @@ $sold_products = DB::table('order_items')
             // Mendefinisikan label dan data untuk grafik
             var productNames = [];
             var quantitiesSold = [];
+            var fullProductNames = []; // Menyimpan nama lengkap produk
 
             products.forEach(function(product) {
-                productNames.push(product.name);
+                // Mendapatkan inisial dari setiap kata dalam nama produk
+                var initials = product.name.match(/\b\w/g) || [];
+                var acronym = initials.join('').toUpperCase(); // Menggabungkan inisial untuk membentuk akronim
+
+                // Menggunakan akronim sebagai nama produk atau nama singkat
+                productNames.push(acronym + " - " + product.quantity_sold); // Menambahkan jumlah terjual setelah akronim
                 quantitiesSold.push(product.quantity_sold);
+                fullProductNames.push(product.name); // Menyimpan nama lengkap produk
             });
 
             // Menggambar grafik menggunakan Chart.js
@@ -212,15 +219,27 @@ $sold_products = DB::table('order_items')
                             ticks: {
                                 beginAtZero: true,
                                 callback: function(value, index, values) {
-                                return value.toLocaleString(); // Menggunakan koma sebagai pemisah ribuan
-                            }
+                                    return value.toLocaleString(); // Menggunakan koma sebagai pemisah ribuan
+                                }
                             }
                         }]
                     },
                     // maintainAspectRatio: false, // Menjadikan chart tidak mempertahankan rasio aspek
-                    responsive: true // Menjadikan chart responsif
+                    responsive: true, // Menjadikan chart responsif
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                // Mendapatkan indeks data yang dihover
+                                var dataIndex = tooltipItem.index;
+                                // Mengembalikan nama lengkap produk dari array nama produk
+                                return fullProductNames[dataIndex];
+                            }
+                        }
+                    }
                 }
             });
         });
     </script>
+
+
 @endpush
