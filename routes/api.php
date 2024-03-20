@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +40,7 @@ Route::get('/api-discount', [App\Http\Controllers\Api\DiscountController::class,
 //create discount api
 Route::post('/api-discount', [App\Http\Controllers\Api\DiscountController::class, 'store'])->middleware('auth:sanctum');
 
-//get transaction api
-// Route::get('/api-report', [OrderController::class, 'getTransactionsInLastMonth'])->middleware('auth:sanctum');
-Route::get('/api-report', [App\Http\Controllers\Api\OrderController::class, 'getTransactionsInLastMonth'])->middleware('auth:sanctum');
+Route::get('/orders/{date?}', [App\Http\Controllers\Api\OrderController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/summary/{date?}', [App\Http\Controllers\Api\OrderController::class, 'summary'])->middleware('auth:sanctum');
+Route::get('/order-item/{date?}', [App\Http\Controllers\Api\OrderItemController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/order-sales', [App\Http\Controllers\Api\OrderItemController::class, 'orderSales'])->middleware('auth:sanctum');

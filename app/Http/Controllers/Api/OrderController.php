@@ -59,23 +59,45 @@ class OrderController extends Controller
         ], 200);
     }
 
-     // get transactions in last month
-    public function getTransactionsInLastMonth()
+    public function index(Request $request)
     {
-        $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
-
-        // Mendapatkan tanggal hari ini
-        $endOfCurrentMonth = Carbon::now();
-
-        // Mengambil transaksi dalam rentang waktu satu bulan dari tanggal awal bulan lalu hingga hari ini
-        $transactions = Order::whereBetween('transaction_time', [
-            $startOfLastMonth->format('Y-m-d'),
-            $endOfCurrentMonth->format('Y-m-d')
-        ])->get();
-
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        if ($start_date && $end_date) {
+            $orders = Order::whereBetween('created_at', [$start_date, $end_date])->get();
+        } else {
+            $orders = Order::all();
+        }
         return response()->json([
             'status' => 'success',
-            'data' => $transactions
+            'data' => $orders
+        ], 200);
+    }
+
+    public function summary(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $query = Order::query();
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        $totalRevenue = $query->sum('payment_amount');
+        $totalDiscount = $query->sum('discount_amount');
+        $totalTax = $query->sum('tax');
+        $totalServiceCharge = $query->sum('service_charge');
+        $totalSubtotal = $query->sum('sub_total');
+        $total = $totalSubtotal - $totalDiscount - $totalTax + $totalServiceCharge;
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'total_revenue' => $totalRevenue,
+                'total_discount' => $totalDiscount,
+                'total_tax' => $totalTax,
+                'total_subtotal' => $totalSubtotal,
+                'total_service_charge' => $totalServiceCharge,
+                'total' => $total,
+            ]
         ], 200);
     }
 }
