@@ -156,7 +156,7 @@ $sold_products = DB::table('order_items')
                             <h4>Products Sold Chart</h4>
                         </div>
                         <div class="card-body">
-                            <canvas id="productsChart" width="400" height="300"></canvas>
+                            <canvas id="productsChart" width="400" height="300" max-height= "350"></canvas>
                         </div>
                     </div>
                 </div>
