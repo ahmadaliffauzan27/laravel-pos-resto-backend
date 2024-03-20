@@ -213,7 +213,9 @@ $sold_products = DB::table('order_items')
                                 beginAtZero: true
                             }
                         }]
-                    }
+                    },
+                    maintainAspectRatio: false, // Menjadikan chart tidak mempertahankan rasio aspek
+                    responsive: true // Menjadikan chart responsif
                 }
             });
         });
