@@ -75,29 +75,30 @@ class OrderController extends Controller
     }
 
     public function summary(Request $request)
-    {
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-        $query = Order::query();
-        if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-        $totalRevenue = $query->sum('total');
-        $totalDiscount = $query->sum('discount');
-        $totalTax = $query->sum('tax');
-        $totalServiceCharge = $query->sum('service_charge');
-        $totalSubtotal = $query->sum('sub_total');
-        $total = $totalSubtotal - $totalDiscount - $totalTax + $totalServiceCharge;
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'total_revenue' => $totalRevenue,
-                'total_discount' => $totalDiscount,
-                'total_tax' => $totalTax,
-                'total_subtotal' => $totalSubtotal,
-                'total_service_charge' => $totalServiceCharge,
-                'total' => $total,
-            ]
-        ], 200);
+{
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+    $query = Order::query();
+    if ($startDate && $endDate) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
     }
+    $totalRevenue = round($query->sum('total'));
+    $totalDiscount = round($query->sum('discount'));
+    $totalTax = round($query->sum('tax'));
+    $totalServiceCharge = round($query->sum('service_charge'));
+    $totalSubtotal = round($query->sum('sub_total'));
+    $total = $totalSubtotal - $totalDiscount - $totalTax + $totalServiceCharge;
+    return response()->json([
+        'status' => 'success',
+        'data' => [
+            'total_revenue' => $totalRevenue,
+            'total_discount' => $totalDiscount,
+            'total_tax' => $totalTax,
+            'total_subtotal' => $totalSubtotal,
+            'total_service_charge' => $totalServiceCharge,
+            'total' => $total,
+        ]
+    ], 200);
+}
+
 }
