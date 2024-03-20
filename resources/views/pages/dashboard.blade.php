@@ -37,8 +37,8 @@ $data = $orders->pluck('total_amount')->toArray();
 // Query untuk mendapatkan produk yang terjual beserta jumlahnya
 $sold_products = DB::table('order_items')
     ->join('products', 'order_items.product_id', '=', 'products.id')
-    ->select('products.name', DB::raw('SUM(order_items.quantity) as quantity_sold'))
-    ->groupBy('order_items.product_id', 'products.name')
+    ->select('products.name', 'products.price', DB::raw('SUM(order_items.quantity) as quantity_sold'))
+    ->groupBy('order_items.product_id', 'products.name', 'products.price')
     ->orderBy('quantity_sold', 'desc')
     ->get();
 ?>
@@ -120,14 +120,29 @@ $sold_products = DB::table('order_items')
                                 <table class="table table-bordered table-md">
                                     <tr>
                                         <th>Product</th>
-                                        <th>Quantity Sold</th>
+                                        <th>Qty</th>
+                                        <th>Revenue</th>
                                     </tr>
+                                    @php
+                                        $totalRevenue = 0;
+                                    @endphp
                                     @foreach($sold_products as $product)
+                                    @php
+                                        $revenue = $product->quantity_sold * $product->price;
+                                        $totalRevenue += $revenue;
+                                    @endphp
                                     <tr>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->quantity_sold }}</td>
+                                        <td>{{ 'Rp ' . number_format($product->quantity_sold * $product->price, 0, ',', '.') }}</td>
                                     </tr>
                                     @endforeach
+                                    <tr>
+                                        <td colspan="3">&nbsp;</td>
+                                    <tr>
+                                        <td colspan="2"><strong>Total Revenue:</strong></td>
+                                        <td><strong>{{ 'Rp ' . number_format($totalRevenue, 0, ',', '.') }}</strong></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
