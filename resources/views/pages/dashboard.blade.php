@@ -17,6 +17,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 
     // $total_admin = User::where('roles', 'admin')->count();
     $total_admin = User::count();
@@ -32,6 +33,14 @@ use App\Models\Order;
 // Mendefinisikan label dan data untuk grafik
 $labels = $orders->pluck('order_date')->toArray();
 $data = $orders->pluck('total_amount')->toArray();
+
+// Query untuk mendapatkan produk yang terjual beserta jumlahnya
+$sold_products = DB::table('order_items')
+    ->join('products', 'order_items.product_id', '=', 'products.id')
+    ->select('products.name', DB::raw('SUM(order_items.quantity) as quantity_sold'))
+    ->groupBy('order_items.product_id', 'products.name')
+    ->orderBy('quantity_sold', 'desc')
+    ->get();
 ?>
     <div class="main-content">
         <section class="section">
@@ -100,14 +109,50 @@ $data = $orders->pluck('total_amount')->toArray();
                         </div>
                     </div>
                 </div>
-
+                <!-- Tambahkan bagian untuk menampilkan produk yang terjual -->
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Products Sold</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-md">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity Sold</th>
+                                    </tr>
+                                    @foreach($sold_products as $product)
+                                    <tr>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->quantity_sold }}</td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Akhir bagian untuk menampilkan produk yang terjual -->
+                <!-- Tambahkan bagian untuk menampilkan grafik produk yang terjual -->
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Products Sold Chart</h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="productsChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Akhir bagian untuk menampilkan grafik produk yang terjual -->
             </div>
         </section>
     </div>
 @endsection
 
 @push('scripts')
-    <!-- JS Libraies -->
+    <!-- JS Libraries -->
     <script src="{{ asset('library/simpleweather/jquery.simpleWeather.min.js') }}"></script>
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
@@ -117,4 +162,45 @@ $data = $orders->pluck('total_amount')->toArray();
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/index-0.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            // Mengambil data produk yang terjual dari PHP
+            var products = @json($sold_products);
+
+            // Mendefinisikan label dan data untuk grafik
+            var productNames = [];
+            var quantitiesSold = [];
+
+            products.forEach(function(product) {
+                productNames.push(product.name);
+                quantitiesSold.push(product.quantity_sold);
+            });
+
+            // Menggambar grafik menggunakan Chart.js
+            var ctx = document.getElementById('productsChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: productNames,
+                    datasets: [{
+                        label: 'Quantity Sold',
+                        data: quantitiesSold,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
 @endpush
