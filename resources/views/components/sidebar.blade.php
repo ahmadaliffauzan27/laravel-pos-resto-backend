@@ -5,7 +5,7 @@
                 <a href="index.html">Empal Mang Medi</a>
             </div>
             <div class="sidebar-brand sidebar-brand-sm">
-                <a href="index.html">AL</a>
+                <a href="index.html">EMPAL</a>
             </div>
             <ul class="sidebar-menu">
                 <li class="menu-header">Dashboard</li>

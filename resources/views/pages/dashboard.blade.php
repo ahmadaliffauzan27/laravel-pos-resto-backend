@@ -55,7 +55,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Admin</h4>
+                                <h4>Total Users</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_admin; ?>
@@ -70,7 +70,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Product</h4>
+                                <h4>Total Products</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_product; ?>
@@ -85,7 +85,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Category</h4>
+                                <h4>Total Categories</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_category; ?>
@@ -101,7 +101,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Order</h4>
+                                <h4>Total Orders</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_order; ?>
@@ -113,15 +113,15 @@ $sold_products = DB::table('order_items')
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Products Sold</h4>
+                            <h4>Menu Terjual</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-md">
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Qty</th>
-                                        <th>Revenue</th>
+                                        <th>Menu</th>
+                                        <th>Jumlah</th>
+                                        <th>Pendapatan</th>
                                     </tr>
                                     @php
                                         $totalRevenue = 0;
@@ -140,7 +140,7 @@ $sold_products = DB::table('order_items')
                                     <tr>
                                         <td colspan="3">&nbsp;</td>
                                     <tr>
-                                        <td colspan="2"><strong>Total Revenue:</strong></td>
+                                        <td colspan="2"><strong>Total Pendapatan :</strong></td>
                                         <td><strong>{{ 'Rp ' . number_format($totalRevenue, 0, ',', '.') }}</strong></td>
                                     </tr>
                                 </table>
@@ -153,7 +153,7 @@ $sold_products = DB::table('order_items')
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Products Sold Chart</h4>
+                            <h4>Grafik Menu Terjual</h4>
                         </div>
                         <div class="card-body">
                             <canvas id="productsChart" width="400" height="300" max-height= "350"></canvas>
@@ -206,7 +206,7 @@ $sold_products = DB::table('order_items')
                 data: {
                     labels: productNames,
                     datasets: [{
-                        label: 'Quantity Sold',
+                        label: 'Jumlah Terjual',
                         data: quantitiesSold,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
