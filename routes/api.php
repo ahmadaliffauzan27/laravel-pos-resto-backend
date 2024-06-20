@@ -40,6 +40,13 @@ Route::post('/api-discounts', [App\Http\Controllers\Api\DiscountController::clas
 Route::put('/api-discounts/{discount}', [App\Http\Controllers\Api\DiscountController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/api-discounts/{discount}', [App\Http\Controllers\Api\DiscountController::class, 'destroy'])->middleware('auth:sanctum');
 
+//pajak api
+Route::get('/api-pajak', [App\Http\Controllers\Api\PajakController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/api-pajaks', [App\Http\Controllers\Api\PajakController::class, 'store'])->middleware('auth:sanctum');
+Route::put('/api-pajaks/{pajaks}', [App\Http\Controllers\Api\PajakController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/api-pajaks/{pajaks}', [App\Http\Controllers\Api\PajakController::class, 'destroy'])->middleware('auth:sanctum');
+
+
 Route::get('/orders/{date?}', [App\Http\Controllers\Api\OrderController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/summary/{date?}', [App\Http\Controllers\Api\OrderController::class, 'summary'])->middleware('auth:sanctum');
 Route::get('/order-item/{date?}', [App\Http\Controllers\Api\OrderItemController::class, 'index'])->middleware('auth:sanctum');
