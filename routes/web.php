@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('category',CategoryController::class);
 
     Route::resource('product',ProductController::class);
+
+    Route::resource('report',OrderReportController::class);
+
 });
 
