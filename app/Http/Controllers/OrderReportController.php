@@ -10,45 +10,21 @@ use PDF;
 class OrderReportController extends Controller
 {
     public function index(Request $request)
-    {
-        // Ambil nilai default untuk tanggal
-        $startDate = Carbon::now()->subMonth()->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
+{
+    $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
+    $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
 
-        // Filter berdasarkan inputan jika tersedia
-        if ($request->has('start_date')) {
-            try {
-                $startDate = Carbon::createFromFormat('Y-m-d', $request->start_date)->startOfDay();
-            } catch (\Exception $e) {
-                // Handle invalid date format gracefully
-                $startDate = Carbon::now()->subMonth()->startOfDay();
-            }
-        }
+    $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
 
-        if ($request->has('end_date')) {
-            try {
-                $endDate = Carbon::createFromFormat('Y-m-d', $request->end_date)->endOfDay();
-            } catch (\Exception $e) {
-                // Handle invalid date format gracefully
-                $endDate = Carbon::now()->endOfDay();
-            }
-        }
+    // Calculate totals
+    $totalPriceMenu = $orders->sum('sub_total');
+    $totalDiscount = $orders->sum('discount');
+    $totalTax = $orders->sum('tax');
+    $totalAmount = $orders->sum('total');
 
-        // Ubah format untuk tanggal end_date agar memasukkan rentang penuh hari
-        $endDate->addDay();
+    return view('pages.report.index', compact('orders', 'totalPriceMenu', 'totalDiscount', 'totalTax', 'totalAmount', 'startDate', 'endDate'));
+}
 
-        // Hitung total diskon, pajak, dan total harga selama periode
-        $totalPriceMenu = Order::whereBetween('created_at', [$startDate, $endDate])->sum('sub_total');
-        $totalDiscount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('discount');
-        $totalTax = Order::whereBetween('created_at', [$startDate, $endDate])->sum('tax');
-        $totalAmount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('total');
-
-         // Query data menggunakan whereBetween untuk filter tanggal
-         $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
-
-        // return view('pages.report.index', compact('orders', 'startDate', 'endDate'));
-        return view('pages.report.index', compact('orders', 'startDate', 'endDate', 'totalPriceMenu','totalDiscount', 'totalTax', 'totalAmount'));
-    }
 
     public function download(Request $request)
 {
