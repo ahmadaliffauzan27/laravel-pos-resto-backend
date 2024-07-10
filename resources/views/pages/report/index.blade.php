@@ -66,7 +66,7 @@
                                                 <th>Subtotal</th>
                                                 <th>Pajak</th>
                                                 <th>Diskon</th>
-                                                <th>Biaya Layanan</th>
+                                                {{-- <th>Biaya Layanan</th> --}}
                                                 <th>Total Harga</th>
                                                 <th>Metode Pembayaran</th>
                                                 <th>Total Item</th>
@@ -85,7 +85,7 @@
                                                     <td>{{ 'Rp ' . number_format($order->sub_total, 0, ',', '.') }}</td>
                                                     <td>{{ 'Rp ' . number_format($order->tax, 0, ',', '.') }}</td>
                                                     <td>{{ 'Rp ' . number_format($order->discount, 0, ',', '.') }}</td>
-                                                    <td>{{ 'Rp ' . number_format($order->service_charge, 0, ',', '.') }}</td>
+                                                    {{-- <td>{{ 'Rp ' . number_format($order->service_charge, 0, ',', '.') }}</td> --}}
                                                     <td>{{ 'Rp ' . number_format($order->total, 0, ',', '.') }}</td>
                                                     <td>{{ $order->payment_method }}</td>
                                                     <td>{{ $order->total_item }}</td>
