@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Orders Report</title>
+    <title>Laporan Penjualan Empal Gentong Mang Medi</title>
     <style>
         @page {
             size: landscape;
@@ -20,8 +20,8 @@
     </style>
 </head>
 <body>
-    <h1>Orders Report</h1>
-    <p>From: {{ $startDate }} To: {{ $endDate }}</p>
+    <h1>Laporan Penjualan Empal Gentong Mang Medi</h1>
+    <p>Dari : {{ \Carbon\Carbon::parse($startDate)->isoFormat('D MMMM YYYY') }} - Hingga : {{ \Carbon\Carbon::parse($endDate)->isoFormat('D MMMM YYYY') }}</p>
     <table>
         <thead>
             <tr>
@@ -56,5 +56,26 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Informasi Total Diskon, Pajak, dan Total Harga -->
+    <div style="margin-top: 20px;">
+        <table>
+            <tbody>
+                <tr>
+                    <th>Total Diskon Dipakai</th>
+                    <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <th>Total Pemasukan Pajak</th>
+                    <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <th>Total Pendapatan</th>
+                    <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>

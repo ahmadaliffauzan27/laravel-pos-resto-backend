@@ -50,16 +50,23 @@ class OrderReportController extends Controller
     }
 
     public function download(Request $request)
-    {
-        $startDate = $request->get('start_date') ? Carbon::parse($request->get('start_date'))->startOfDay() : Carbon::now()->startOfMonth();
-        $endDate = $request->get('end_date') ? Carbon::parse($request->get('end_date'))->endOfDay() : Carbon::now()->endOfMonth();
+{
+    $startDate = $request->get('start_date') ? Carbon::parse($request->get('start_date'))->startOfDay() : Carbon::now()->startOfMonth();
+    $endDate = $request->get('end_date') ? Carbon::parse($request->get('end_date'))->endOfDay() : Carbon::now()->endOfMonth();
 
-        $orders = Order::whereBetween('created_at', [$startDate, $endDate])->get();
+    $ordersQuery = Order::whereBetween('created_at', [$startDate, $endDate]);
 
-        $pdf = PDF::loadView('pages.report.pdf', compact('orders', 'startDate', 'endDate'));
+    $totalDiscount = $ordersQuery->sum('discount');
+    $totalTax = $ordersQuery->sum('tax');
+    $totalAmount = $ordersQuery->sum('total');
 
-        return $pdf->download('orders_report_' . $startDate->format('Y-m-d') . '_to_' . $endDate->format('Y-m-d') . '.pdf');
-    }
+    $orders = $ordersQuery->get();
+
+    $pdf = PDF::loadView('pages.report.pdf', compact('orders', 'startDate', 'endDate', 'totalDiscount', 'totalTax', 'totalAmount'));
+
+    return $pdf->download('orders_report_' . $startDate->format('Y-m-d') . '_to_' . $endDate->format('Y-m-d') . '.pdf');
+}
+
 
     public function show($id)
 {
