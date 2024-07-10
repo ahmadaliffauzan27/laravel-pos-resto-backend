@@ -104,6 +104,10 @@
                                     @endif
                                 </div>
 
+                                <div class="float-right">
+                                    {{ $orders->withQueryString()->links() }}
+                                </div>
+
                                 @if(!$orders->isEmpty())
                                     <!-- Informasi total diskon, pajak, dan total harga -->
                                     <div class="mt-4">
@@ -129,9 +133,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="float-right">
-                                        {{ $orders->withQueryString()->links() }}
-                                    </div>
+
                                 @endif
                             </div>
                         </div>
