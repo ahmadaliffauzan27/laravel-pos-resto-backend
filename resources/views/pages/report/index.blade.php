@@ -100,11 +100,20 @@
                                     </table>
                                 </div>
 
+
+                                <div class="float-right">
+                                    {{ $orders->withQueryString()->links() }}
+                                </div>
+
                                 <!-- Informasi total diskon, pajak, dan total harga -->
                 <div class="mt-4">
                     <h6>Summary</h6>
                     <table class="table table-bordered">
                         <tbody>
+                            <tr>
+                                <th>Total Penjualan Menu</th>
+                                <td>{{ 'Rp ' . number_format($totalPriceMenu, 0, ',', '.') }}</td>
+                            </tr>
                             <tr>
                                 <th>Total Diskon Digunakan</th>
                                 <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
@@ -114,16 +123,13 @@
                                 <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <th>Total Pendapatan</th>
+                                <th>Total Penjualan</th>
                                 <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                                <div class="float-right">
-                                    {{ $orders->withQueryString()->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>

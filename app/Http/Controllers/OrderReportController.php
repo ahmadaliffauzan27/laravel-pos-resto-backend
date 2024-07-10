@@ -38,6 +38,7 @@ class OrderReportController extends Controller
         $endDate->addDay();
 
         // Hitung total diskon, pajak, dan total harga selama periode
+        $totalPriceMenu = Order::whereBetween('created_at', [$startDate, $endDate])->sum('sub_total');
         $totalDiscount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('discount');
         $totalTax = Order::whereBetween('created_at', [$startDate, $endDate])->sum('tax');
         $totalAmount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('total');
@@ -46,7 +47,7 @@ class OrderReportController extends Controller
          $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
 
         // return view('pages.report.index', compact('orders', 'startDate', 'endDate'));
-        return view('pages.report.index', compact('orders', 'startDate', 'endDate', 'totalDiscount', 'totalTax', 'totalAmount'));
+        return view('pages.report.index', compact('orders', 'startDate', 'endDate', 'totalPriceMenu','totalDiscount', 'totalTax', 'totalAmount'));
     }
 
     public function download(Request $request)
@@ -56,13 +57,14 @@ class OrderReportController extends Controller
 
     $ordersQuery = Order::whereBetween('created_at', [$startDate, $endDate]);
 
+    $totalPriceMenu = $ordersQuery->sum('sub_total');
     $totalDiscount = $ordersQuery->sum('discount');
     $totalTax = $ordersQuery->sum('tax');
     $totalAmount = $ordersQuery->sum('total');
 
     $orders = $ordersQuery->get();
 
-    $pdf = PDF::loadView('pages.report.pdf', compact('orders', 'startDate', 'endDate', 'totalDiscount', 'totalTax', 'totalAmount'));
+    $pdf = PDF::loadView('pages.report.pdf', compact('orders', 'startDate', 'endDate', 'totalPriceMenu','totalDiscount', 'totalTax', 'totalAmount'));
 
     return $pdf->download('orders_report_' . $startDate->format('Y-m-d') . '_to_' . $endDate->format('Y-m-d') . '.pdf');
 }

@@ -62,6 +62,10 @@
         <table>
             <tbody>
                 <tr>
+                    <th>Total Penjualan Menu</th>
+                    <td>{{ 'Rp ' . number_format($totalPriceMenu, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
                     <th>Total Diskon Dipakai</th>
                     <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
                 </tr>
@@ -70,7 +74,7 @@
                     <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
                 </tr>
                 <tr>
-                    <th>Total Pendapatan</th>
+                    <th>Total Penjualan</th>
                     <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
