@@ -106,15 +106,15 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th>Total Diskon</th>
+                                <th>Total Diskon Digunakan</th>
                                 <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <th>Total Pajak</th>
+                                <th>Total Pemasukan Pajak</th>
                                 <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <th>Total Harga</th>
+                                <th>Total Pendapatan</th>
                                 <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
