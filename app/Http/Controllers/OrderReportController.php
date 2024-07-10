@@ -17,10 +17,10 @@ class OrderReportController extends Controller
     $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
 
     // Calculate totals
-    $totalPriceMenu = $orders->sum('sub_total');
-    $totalDiscount = $orders->sum('discount');
-    $totalTax = $orders->sum('tax');
-    $totalAmount = $orders->sum('total');
+    $totalPriceMenu = Order::whereBetween('created_at', [$startDate, $endDate])->sum('sub_total');
+    $totalDiscount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('discount');
+    $totalTax = Order::whereBetween('created_at', [$startDate, $endDate])->sum('tax');
+    $totalAmount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('total');
 
     return view('pages.report.index', compact('orders', 'totalPriceMenu', 'totalDiscount', 'totalTax', 'totalAmount', 'startDate', 'endDate'));
 }
