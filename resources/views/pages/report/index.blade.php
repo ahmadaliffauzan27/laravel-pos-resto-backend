@@ -35,13 +35,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="start_date">Start Date</label>
-                                                <input type="text" class="form-control datepicker" name="start_date" id="start_date" value="{{ request('start_date', $startDate->format('Y-m-d')) }}">
+                                                <input type="date" class="form-control datepicker" name="start_date" id="start_date" value="{{ request('start_date', $startDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="end_date">End Date</label>
-                                                <input type="text" class="form-control datepicker" name="end_date" id="end_date" value="{{ request('end_date', $endDate->format('Y-m-d')) }}">
+                                                <input type="date" class="form-control datepicker" name="end_date" id="end_date" value="{{ request('end_date', $endDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -49,51 +49,78 @@
                                                 <button type="submit" class="btn btn-primary mt-2">Filter</button>
                                             </div>
                                         </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group mt-4">
+                                                <a href="{{ route('report.pdf', ['start_date' => request('start_date', $startDate->format('Y-m-d')), 'end_date' => request('end_date', $endDate->format('Y-m-d'))]) }}" class="btn btn-success mt-2">Download PDF</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
 
                                 <div class="table-responsive">
-                                    <table class="table-striped table" border="1">
+                                    <table class="table-striped table">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Payment Amount</th>
+                                                <th>Pembayaran Pembeli</th>
                                                 <th>Subtotal</th>
-                                                <th>Tax</th>
-                                                <th>Discount</th>
-                                                <th>Service Charge</th>
-                                                <th>Total</th>
-                                                <th>Payment Method</th>
+                                                <th>Pajak</th>
+                                                <th>Diskon</th>
+                                                <th>Biaya Layanan</th>
+                                                <th>Total Harga</th>
+                                                <th>Metode Pembayaran</th>
                                                 <th>Total Item</th>
-                                                <th>Kasir ID</th>
+                                                {{-- <th>Kasir ID</th> --}}
                                                 <th>Nama Kasir</th>
-                                                <th>Transaction Time</th>
-                                                <th>Created At</th>
-                                                <th>Updated At</th>
+                                                {{-- <th>Transaction Time</th> --}}
+                                                <th>Waktu Transaksi</th>
+                                                {{-- <th>Updated At</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($orders as $order)
                                                 <tr>
                                                     <td>{{ $order->id }}</td>
-                                                    <td>{{ $order->payment_amount }}</td>
-                                                    <td>{{ $order->sub_total }}</td>
-                                                    <td>{{ $order->tax }}</td>
-                                                    <td>{{ $order->discount }}</td>
-                                                    <td>{{ $order->service_charge }}</td>
-                                                    <td>{{ $order->total }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->payment_amount, 0, ',', '.') }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->sub_total, 0, ',', '.') }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->tax, 0, ',', '.') }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->discount, 0, ',', '.') }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->service_charge, 0, ',', '.') }}</td>
+                                                    <td>{{ 'Rp ' . number_format($order->total, 0, ',', '.') }}</td>
                                                     <td>{{ $order->payment_method }}</td>
                                                     <td>{{ $order->total_item }}</td>
-                                                    <td>{{ $order->id_kasir }}</td>
+                                                    {{-- <td>{{ $order->id_kasir }}</td> --}}
                                                     <td>{{ $order->nama_kasir }}</td>
-                                                    <td>{{ $order->transaction_time }}</td>
+                                                    {{-- <td>{{ $order->transaction_time }}</td> --}}
                                                     <td>{{ $order->created_at }}</td>
-                                                    <td>{{ $order->updated_at }}</td>
+                                                    {{-- <td>{{ $order->updated_at }}</td> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <!-- Informasi total diskon, pajak, dan total harga -->
+                <div class="mt-4">
+                    <h6>Summary</h6>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Total Diskon</th>
+                                <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Total Pajak</th>
+                                <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Total Harga</th>
+                                <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                                 <div class="float-right">
                                     {{ $orders->withQueryString()->links() }}
                                 </div>

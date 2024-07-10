@@ -34,5 +34,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('report',OrderReportController::class);
 
+    Route::get('report.pdf', [OrderReportController::class, 'download'])->name('report.pdf');
+
+    Route::get('/orders/{id}', [OrderReportController::class, 'show'])->name('orders.show');
+
+
+
 });
 
