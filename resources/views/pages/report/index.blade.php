@@ -59,11 +59,18 @@
                                                 <button type="submit" class="btn btn-primary mt-2">Filter</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        {{-- <div class="col-md-3">
                                             <div class="form-group mt-4">
                                                 <a href="{{ route('report.pdf', ['start_date' => request('start_date', $startDate->format('Y-m-d')), 'end_date' => request('end_date', $endDate->format('Y-m-d'))]) }}" class="btn btn-success mt-2">Download PDF</a>
                                             </div>
-                                        </div>
+                                        </div> --}}
+                                        @if(!$errors->any())
+                                            <div class="col-md-3">
+                                                <div class="form-group mt-4">
+                                                    <a href="{{ route('report.pdf', ['start_date' => request('start_date', $startDate->format('Y-m-d')), 'end_date' => request('end_date', $endDate->format('Y-m-d'))]) }}" class="btn btn-success mt-2">Download PDF</a>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </form>
 
