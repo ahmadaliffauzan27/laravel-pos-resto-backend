@@ -9,10 +9,54 @@ use PDF;
 
 class OrderReportController extends Controller
 {
-    public function index(Request $request)
+//     public function index(Request $request)
+// {
+//     $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
+//     $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
+
+//     $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
+
+//     // Calculate totals
+//     $totalPriceMenu = Order::whereBetween('created_at', [$startDate, $endDate])->sum('sub_total');
+//     $totalDiscount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('discount');
+//     $totalTax = Order::whereBetween('created_at', [$startDate, $endDate])->sum('tax');
+//     $totalAmount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('total');
+
+//     return view('pages.report.index', compact('orders', 'totalPriceMenu', 'totalDiscount', 'totalTax', 'totalAmount', 'startDate', 'endDate'));
+// }
+
+// public function index(Request $request)
+// {
+//     $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
+//     $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
+
+//     // Validasi untuk memastikan start date tidak melebihi tanggal sekarang
+//     if ($startDate > now()) {
+//         return redirect()->route('report.index')->withErrors(['start_date' => 'Start date tidak boleh melebihi tanggal sekarang.']);
+//     }
+
+//     $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
+
+//     // Calculate totals
+//     $totalPriceMenu = Order::whereBetween('created_at', [$startDate, $endDate])->sum('sub_total');
+//     $totalDiscount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('discount');
+//     $totalTax = Order::whereBetween('created_at', [$startDate, $endDate])->sum('tax');
+//     $totalAmount = Order::whereBetween('created_at', [$startDate, $endDate])->sum('total');
+
+//     return view('pages.report.index', compact('orders', 'totalPriceMenu', 'totalDiscount', 'totalTax', 'totalAmount', 'startDate', 'endDate'));
+// }
+
+public function index(Request $request)
 {
     $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
     $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
+
+    // Validasi untuk memastikan start date tidak melebihi end date
+    if ($startDate > $endDate) {
+        return redirect()->route('report.index')
+            ->withErrors(['start_date' => 'Start date tidak boleh melebihi end date.'])
+            ->withInput();
+    }
 
     $orders = Order::whereBetween('created_at', [$startDate, $endDate])->paginate(10);
 
@@ -24,6 +68,8 @@ class OrderReportController extends Controller
 
     return view('pages.report.index', compact('orders', 'totalPriceMenu', 'totalDiscount', 'totalTax', 'totalAmount', 'startDate', 'endDate'));
 }
+
+
 
 
     public function download(Request $request)

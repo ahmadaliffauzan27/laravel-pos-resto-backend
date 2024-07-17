@@ -26,6 +26,16 @@
                     </div>
                 </div>
 
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <p>
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </p>
+                    </div>
+                @endif
+
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
@@ -35,13 +45,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="start_date">Start Date</label>
-                                                <input type="date" class="form-control datepicker" name="start_date" id="start_date" value="{{ request('start_date', $startDate->format('Y-m-d')) }}">
+                                                <input type="date" class="form-control datepicker" name="start_date" id="start_date" value="{{ old('start_date', $startDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="end_date">End Date</label>
-                                                <input type="date" class="form-control datepicker" name="end_date" id="end_date" value="{{ request('end_date', $endDate->format('Y-m-d')) }}">
+                                                <input type="date" class="form-control datepicker" name="end_date" id="end_date" value="{{ old('end_date', $endDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -57,83 +67,75 @@
                                     </div>
                                 </form>
 
-                                <div class="table-responsive">
-                                    @if($orders->isEmpty())
-                                        <p class="text-center">Tidak ada transaksi yang terjadi</p>
-                                    @else
-                                        <table class="table-striped table">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Pembayaran Pembeli</th>
-                                                    <th>Subtotal</th>
-                                                    <th>Pajak</th>
-                                                    <th>Diskon</th>
-                                                    {{-- <th>Biaya Layanan</th> --}}
-                                                    <th>Total Harga</th>
-                                                    <th>Metode Pembayaran</th>
-                                                    <th>Total Item</th>
-                                                    {{-- <th>Kasir ID</th> --}}
-                                                    <th>Nama Kasir</th>
-                                                    {{-- <th>Transaction Time</th> --}}
-                                                    <th>Waktu Transaksi</th>
-                                                    {{-- <th>Updated At</th> --}}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($orders as $order)
+                                @if(!$errors->any())
+                                    <div class="table-responsive">
+                                        @if($orders->isEmpty())
+                                            <p class="text-center">Tidak ada transaksi yang terjadi</p>
+                                        @else
+                                            <table class="table-striped table">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ $order->id }}</td>
-                                                        <td>{{ 'Rp ' . number_format($order->payment_amount, 0, ',', '.') }}</td>
-                                                        <td>{{ 'Rp ' . number_format($order->sub_total, 0, ',', '.') }}</td>
-                                                        <td>{{ 'Rp ' . number_format($order->tax, 0, ',', '.') }}</td>
-                                                        <td>{{ 'Rp ' . number_format($order->discount, 0, ',', '.') }}</td>
-                                                        {{-- <td>{{ 'Rp ' . number_format($order->service_charge, 0, ',', '.') }}</td> --}}
-                                                        <td>{{ 'Rp ' . number_format($order->total, 0, ',', '.') }}</td>
-                                                        <td>{{ $order->payment_method }}</td>
-                                                        <td>{{ $order->total_item }}</td>
-                                                        {{-- <td>{{ $order->id_kasir }}</td> --}}
-                                                        <td>{{ $order->nama_kasir }}</td>
-                                                        {{-- <td>{{ $order->transaction_time }}</td> --}}
-                                                        <td>{{ $order->created_at }}</td>
-                                                        {{-- <td>{{ $order->updated_at }}</td> --}}
+                                                        <th>ID</th>
+                                                        <th>Pembayaran Pembeli</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Pajak</th>
+                                                        <th>Diskon</th>
+                                                        <th>Total Harga</th>
+                                                        <th>Metode Pembayaran</th>
+                                                        <th>Total Item</th>
+                                                        <th>Nama Kasir</th>
+                                                        <th>Waktu Transaksi</th>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    @endif
-                                </div>
-
-                                <div class="float-right">
-                                    {{ $orders->withQueryString()->links() }}
-                                </div>
-
-                                @if(!$orders->isEmpty())
-                                    <!-- Informasi total diskon, pajak, dan total harga -->
-                                    <div class="mt-4">
-                                        <h6>Summary</h6>
-                                        <table class="table table-bordered">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Total Penjualan Menu</th>
-                                                    <td>{{ 'Rp ' . number_format($totalPriceMenu, 0, ',', '.') }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Total Diskon Digunakan</th>
-                                                    <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Total Pemasukan Pajak</th>
-                                                    <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Total Penjualan</th>
-                                                    <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($orders as $order)
+                                                        <tr>
+                                                            <td>{{ $order->id }}</td>
+                                                            <td>{{ 'Rp ' . number_format($order->payment_amount, 0, ',', '.') }}</td>
+                                                            <td>{{ 'Rp ' . number_format($order->sub_total, 0, ',', '.') }}</td>
+                                                            <td>{{ 'Rp ' . number_format($order->tax, 0, ',', '.') }}</td>
+                                                            <td>{{ 'Rp ' . number_format($order->discount, 0, ',', '.') }}</td>
+                                                            <td>{{ 'Rp ' . number_format($order->total, 0, ',', '.') }}</td>
+                                                            <td>{{ $order->payment_method }}</td>
+                                                            <td>{{ $order->total_item }}</td>
+                                                            <td>{{ $order->nama_kasir }}</td>
+                                                            <td>{{ $order->created_at }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @endif
                                     </div>
 
+                                    @if(!$orders->isEmpty())
+                                        <div class="float-right">
+                                            {{ $orders->withQueryString()->links() }}
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <h6>Summary</h6>
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Total Penjualan Menu</th>
+                                                        <td>{{ 'Rp ' . number_format($totalPriceMenu, 0, ',', '.') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total Diskon Digunakan</th>
+                                                        <td>{{ 'Rp ' . number_format($totalDiscount, 0, ',', '.') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total Pemasukan Pajak</th>
+                                                        <td>{{ 'Rp ' . number_format($totalTax, 0, ',', '.') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total Penjualan</th>
+                                                        <td>{{ 'Rp ' . number_format($totalAmount, 0, ',', '.') }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
