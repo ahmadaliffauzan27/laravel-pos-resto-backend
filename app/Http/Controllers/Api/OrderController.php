@@ -77,8 +77,8 @@ class OrderController extends Controller
 
     public function summary(Request $request)
 {
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
+    $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
+    $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
     $query = Order::query();
     if ($startDate && $endDate) {
         $query->whereBetween('created_at', [$startDate, $endDate]);

@@ -16,8 +16,6 @@ class OrderItemController extends Controller
         $start_date = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
         $end_date = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
 
-
-
         $query = OrderItem::query();
 
         $query->select('order_items.*', DB::raw('(SELECT name FROM products WHERE products.id = order_items.product_id) AS product_name'));
@@ -35,8 +33,8 @@ class OrderItemController extends Controller
     }
     public function orderSales(Request $request)
 {
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
+    $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date'))->startOfDay() : now()->subMonth()->startOfDay();
+    $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
     $query = OrderItem::select('order_items.product_id', DB::raw('(SELECT name FROM products WHERE products.id = order_items.product_id) AS product_name'), DB::raw('SUM(order_items.quantity) as total_quantity'))
         ->groupBy('order_items.product_id');
     if ($startDate && $endDate) {
