@@ -83,12 +83,11 @@ class OrderController extends Controller
     if ($startDate && $endDate) {
         $query->whereBetween('created_at', [$startDate, $endDate]);
     }
-    $totalRevenue = round($query->sum('total'));
-    $totalDiscount = round($query->sum('discount'));
-    $totalTax = round($query->sum('tax'));
-    $totalServiceCharge = round($query->sum('service_charge'));
-    $totalSubtotal = round($query->sum('sub_total'));
-    $total = $totalSubtotal - $totalDiscount - $totalTax + $totalServiceCharge;
+    $totalRevenue = (int)$query->sum('total');
+    $totalDiscount = (int)$query->sum('discount');
+    $totalTax = (int)$query->sum('tax');
+    $totalServiceCharge = (int)$query->sum('service_charge');
+    $totalSubtotal = (int)$query->sum('sub_total');
     return response()->json([
         'status' => 'success',
         'data' => [
@@ -97,7 +96,6 @@ class OrderController extends Controller
             'total_tax' => $totalTax,
             'total_subtotal' => $totalSubtotal,
             'total_service_charge' => $totalServiceCharge,
-            'total' => $total,
         ]
     ], 200);
 }
