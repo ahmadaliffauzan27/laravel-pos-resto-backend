@@ -40,7 +40,9 @@ class OrderController extends Controller
             'total_item' => $request->total_item,
             'id_kasir' => $request->id_kasir,
             'nama_kasir' => $request->nama_kasir,
-            'transaction_time' => $request->transaction_time
+            'transaction_time' => $request->transaction_time,
+            'customer_name' => $request->customer_name,
+            'table_number' => $request->table_number
         ]);
 
         //create order items

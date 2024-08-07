@@ -39,6 +39,8 @@ return new class extends Migration
             $table->integer('id_kasir');
             $table->string('nama_kasir');
             $table->string('transaction_time');
+            $table->string('customer_name');
+            $table->string('table_number');
             $table->timestamps();
         });
     }
