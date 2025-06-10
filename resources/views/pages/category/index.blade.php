@@ -11,14 +11,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Categories</h1>
+                <h1>Daftar Kategori</h1>
                 <div class="section-header-button">
-                    <a href="{{ route('category.create') }}" class="btn btn-primary">Add New</a>
+                    <a href="{{ route('category.create') }}" class="btn btn-primary">Tambah Kategori</a>
                 </div>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Category</a></div>
-                    <div class="breadcrumb-item">All Category</div>
+                    <div class="breadcrumb-item"><a href="#">Kategori</a></div>
+                    <div class="breadcrumb-item">Daftar Kategori</div>
                 </div>
             </div>
             <div class="section-body">
@@ -37,7 +37,7 @@
                                 <div class="float-right">
                                     <form method="GET" action="{{ route('category.index') }}">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <input type="text" class="form-control" placeholder="Cari" name="name">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -51,10 +51,10 @@
                                     <table class="table-striped table">
                                         <tr>
 
-                                            <th>Name</th>
-                                            <th>Picture</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
+                                            <th>Nama</th>
+                                            <th>Gambar</th>
+                                            <th>Dibuat Pada</th>
+                                            <th>Aksi</th>
                                         </tr>
                                         @foreach ($categories as $category)
                                             <tr>
@@ -85,7 +85,7 @@
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
                                                             <button class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                <i class="fas fa-times"></i> Delete
+                                                                <i class="fas fa-times"></i> Hapus
                                                             </button>
                                                         </form>
                                                     </div>

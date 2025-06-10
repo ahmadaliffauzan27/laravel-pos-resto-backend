@@ -10,7 +10,7 @@
 @section('main')
     <div class="card card-primary">
         <div class="card-header">
-            <h4>Login</h4>
+            <h4>Masuk</h4>
         </div>
 
         <div class="card-body">
@@ -51,7 +51,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                        Login
+                        Masuk
                     </button>
                 </div>
             </form>

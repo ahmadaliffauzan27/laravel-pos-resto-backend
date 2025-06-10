@@ -52,7 +52,7 @@
                     onclick = "event.preventDefault();
                     document.getElementById('logout-form').submit();"
                     >
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i> Keluar
                 </a>
 
                 <form id="logout-form"

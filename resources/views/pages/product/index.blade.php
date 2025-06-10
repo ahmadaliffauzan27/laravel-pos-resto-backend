@@ -11,14 +11,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Products</h1>
+                <h1>Daftar Menu</h1>
                 <div class="section-header-button">
-                    <a href="{{ route('product.create') }}" class="btn btn-primary">Add New</a>
+                    <a href="{{ route('product.create') }}" class="btn btn-primary">Tambah Menu</a>
                 </div>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">Product</a></div>
-                    <div class="breadcrumb-item">All Product</div>
+                    <div class="breadcrumb-item">Daftar Menu</div>
                 </div>
             </div>
             <div class="section-body">
@@ -37,7 +37,7 @@
                                 <div class="float-right">
                                     <form method="GET" action="{{ route('product.index') }}">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <input type="text" class="form-control" placeholder="Cari" name="name">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -50,15 +50,15 @@
                                 <div class="table-responsive">
                                     <table class="table-striped table">
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Description</th>
-                                            <th>Price</th>
-                                            <th>Stock</th>
+                                            <th>Nama</th>
+                                            <th>Kategori</th>
+                                            <th>Deskripsi</th>
+                                            <th>Harga</th>
+                                            <th>Stok</th>
                                             <th>Status</th>
-                                            <th>Picture</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
+                                            <th>Gambar</th>
+                                            <th>Dibuat Pada</th>
+                                            <th>Aksi</th>
                                         </tr>
                                         @foreach ($products as $product)
                                             <tr>
@@ -68,7 +68,7 @@
                                                 <td>{{ Str::limit($product->description, 50) }}</td>
                                                 <td>{{ $product->price }}</td>
                                                 <td>{{ $product->stock }}</td>
-                                                <td>{{ $product->status == 1 ? 'Available' : 'Not Available' }}</td>
+                                                <td>{{ $product->status == 1 ? 'Tersedia' : 'Tidak Tersedia' }}</td>
                                                 <td>
                                                     @if ($product->image)
                                                         <img src="{{ asset('/' . $product->image) }}" alt=""
@@ -93,7 +93,7 @@
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
                                                             <button class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                <i class="fas fa-times"></i> Delete
+                                                                <i class="fas fa-times"></i> Hapus
                                                             </button>
                                                         </form>
                                                     </div>

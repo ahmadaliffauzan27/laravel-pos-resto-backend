@@ -55,7 +55,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Users</h4>
+                                <h4>Total Pengguna</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_admin; ?>
@@ -70,7 +70,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Products</h4>
+                                <h4>Total Menu</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_product; ?>
@@ -85,7 +85,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Categories</h4>
+                                <h4>Total Kategori</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_category; ?>
@@ -101,7 +101,7 @@ $sold_products = DB::table('order_items')
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Orders</h4>
+                                <h4>Total Pesanan</h4>
                             </div>
                             <div class="card-body">
                                 <?php echo $total_order; ?>

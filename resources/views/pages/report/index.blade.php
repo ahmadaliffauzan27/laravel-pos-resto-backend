@@ -12,11 +12,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Orders Report</h1>
+                <h1>Laporan Penjualan</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Reports</a></div>
-                    <div class="breadcrumb-item">Orders Report</div>
+                    <div class="breadcrumb-item"><a href="#">Laporan</a></div>
+                    <div class="breadcrumb-item">Laporan Penjualan</div>
                 </div>
             </div>
             <div class="section-body">
@@ -44,13 +44,13 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="start_date">Start Date</label>
+                                                <label for="start_date">Tanggal Mulai</label>
                                                 <input type="date" class="form-control datepicker" name="start_date" id="start_date" value="{{ old('start_date', $startDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="end_date">End Date</label>
+                                                <label for="end_date">Tanggal Selesai</label>
                                                 <input type="date" class="form-control datepicker" name="end_date" id="end_date" value="{{ old('end_date', $endDate->format('Y-m-d')) }}">
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <h6>Summary</h6>
+                                            <h6>Rangkuman</h6>
                                             <table class="table table-bordered">
                                                 <tbody>
                                                     <tr>
