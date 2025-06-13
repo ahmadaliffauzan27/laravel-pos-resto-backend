@@ -10,8 +10,10 @@ class ProductController extends Controller
     //index
     public function index()
     {
-        $products = \App\Models\Product::paginate(5);
-        return view('pages.product.index', compact('products'));
+    //     $products = \App\Models\Product::paginate(5);
+    //     return view('pages.product.index', compact('products'));
+    $products = \App\Models\Product::orderBy('id', 'asc')->paginate(5);
+    return view('pages.product.index', compact('products'));
     }
 
     //create
